@@ -367,17 +367,11 @@
     }
 
     /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 1.5rem 1.5rem;
-      text-align: center;
-      font-size: 0.72rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-    }
-    footer a { color: var(--gold-dim); text-decoration: none; }
-    footer a:hover { color: var(--gold); }
+    footer { display: flex; justify-content: space-between; align-items: center; padding: 28px 48px; border-top: 0.5px solid var(--border); flex-wrap: wrap; gap: 16px; }
+    .footer-name { font-family: 'Playfair Display', serif; font-size: 13px; color: #555; }
+    .footer-links { display: flex; gap: 24px; list-style: none; flex-wrap: wrap; }
+    .footer-links a { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #555; text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: var(--gold); }
 
     /* ── MOBILE ── */
     @media (max-width: 700px) {
@@ -520,13 +514,14 @@
   </main>
 
   <footer>
-    <p>
-      <a href="index.html">Home</a> &nbsp;·&nbsp;
-      <a href="about.html">About</a> &nbsp;·&nbsp;
-      williamflattenerthewebsite.com
-    </p>
-    <p style="margin-top:0.5rem; opacity:0.5;">FLATPOSTING · The only social network with a readership of one author and however many of you showed up.</p>
-  </footer>
+  <span class="footer-name">William Flattener</span>
+  <ul class="footer-links">
+    <li><a href="https://www.royalroad.com/profile/378454" target="_blank">Royal Road</a></li>
+    <li><a href="https://www.patreon.com/william_flattener" target="_blank">Patreon</a></li>
+    <li><a href="https://discord.gg/6sm7TZEneT" target="_blank">Discord</a></li>
+    <li><a href="https://bsky.app/profile/williamflattener.bsky.social" target="_blank">Bluesky</a></li>
+  </ul>
+</footer>
 
   <script>
     function toggleHeart(btn, base) {
