@@ -32,6 +32,7 @@ function Hero() {
   const [hover, setHover] = React.useState(false);
   const [focus, setFocus] = React.useState(false);
   const [manual, setManual] = React.useState(false);
+  const swipe = React.useRef(null);
   const [email, setEmail] = React.useState(false);
   const N = 4;
   const go = (n) => setI((n + N) % N);
@@ -58,7 +59,7 @@ function Hero() {
         <h2 className="calm-hero__h"><Mix text={b.title} suffix={<span className="dot">.</span>} /></h2>
         <p className="calm-hero__p">{b.dek}</p>
         <div className="calm-cta">
-          <Button as="a" href={b.rr} target="_blank" rel="noopener noreferrer" variant="signal" size="lg">Read on Royal Road ↗</Button>
+          <Button as="a" href={b.rr} target="_blank" rel="noopener noreferrer" variant="signal" size="lg">Read on Royal Road ↗︎</Button>
         </div>
       </div>
       <a className="book3d" href={b.rr} target="_blank" rel="noopener noreferrer" aria-label={b.title + " on Royal Road"}>
@@ -76,8 +77,8 @@ function Hero() {
         <h1 className="calm-hero__h"><Mix text="Next-level web fiction" italic={false} suffix={<span className="dot">.</span>} /></h1>
         <p className="calm-hero__p">Science fiction and fantasy inspired by the infinite potential of gameworlds.</p>
         <div className="calm-cta">
-          <Button as="a" href="#writing" variant="signal" size="lg">See the writing ↗</Button>
-          <Button as="a" href={PATREON} target="_blank" rel="noopener noreferrer" variant="ghost" size="lg">Support on Patreon ↗</Button>
+          <Button as="a" href="#writing" variant="signal" size="lg">See the writing ↗︎</Button>
+          <Button as="a" href={PATREON} target="_blank" rel="noopener noreferrer" variant="ghost" size="lg">Support on Patreon ↗︎</Button>
         </div>
       </div>
       <div className="polaroid-3d">
@@ -115,7 +116,14 @@ function Hero() {
         )}
       </div>
       <div className="wrap">
-        <div className="car__stage" aria-roledescription="carousel" onKeyDown={(e) => {if (e.key === "ArrowRight") pick(i + 1);if (e.key === "ArrowLeft") pick(i - 1);}}>
+        <div className="car__stage" aria-roledescription="carousel" onKeyDown={(e) => {if (e.key === "ArrowRight") pick(i + 1);if (e.key === "ArrowLeft") pick(i - 1);}}
+        onTouchStart={(e) => {const t = e.touches[0];swipe.current = { x: t.clientX, y: t.clientY };}}
+        onTouchEnd={(e) => {
+          const s0 = swipe.current;swipe.current = null;
+          if (!s0) return;
+          const t = e.changedTouches[0], dx = t.clientX - s0.x, dy = t.clientY - s0.y;
+          if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy) * 1.5) pick(dx < 0 ? i + 1 : i - 1);
+        }}>
           {slides.map((s, n) =>
           <div key={n} className={"car__slide" + (n === i ? " is-on" : "")} aria-hidden={n !== i} inert={n !== i ? "" : undefined} aria-label={(n + 1) + " of " + N}>{s}</div>
           )}
@@ -149,7 +157,7 @@ function Writing() {
                 <p className="calm-book__sub">{b.sub}</p>
                 <p className="calm-book__dek">{b.dek}</p>
                 <div className="calm-links">
-                  <a className="hot-link" href={b.rr} target="_blank" rel="noopener noreferrer">Read on Royal Road ↗</a>
+                  <a className="hot-link" href={b.rr} target="_blank" rel="noopener noreferrer">Read on Royal Road ↗︎</a>
                 </div>
               </div>
             </article>
@@ -178,7 +186,7 @@ function About() {
               </p>
             </div>
           <div className="calm-cta">
-            <Button as="a" href={PATREON} target="_blank" rel="noopener noreferrer" variant="signal" size="lg">Become a Patron ↗</Button>
+            <Button as="a" href={PATREON} target="_blank" rel="noopener noreferrer" variant="signal" size="lg">Become a Patron ↗︎</Button>
           </div>
         </div>
       </div>
@@ -221,7 +229,7 @@ function Flatposting() {
             <p>Flatposting is my social network where only I can post. Follow along there for updates, stray thoughts, and news between chapters.</p>
           </div>
           <div className="calm-cta">
-            <Button as="a" href={FLATPOSTING} target="_blank" rel="noopener noreferrer" variant="signal" size="lg">Visit Flatposting ↗</Button>
+            <Button as="a" href={FLATPOSTING} target="_blank" rel="noopener noreferrer" variant="signal" size="lg">Visit Flatposting ↗︎</Button>
           </div>
         </div>
         <FPMock />

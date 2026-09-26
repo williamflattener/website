@@ -32,7 +32,7 @@ function WFNav({ current }) {
     aria-current={current === key ? "page" : undefined}
     {...external ? { target: "_blank", rel: "noopener noreferrer" } : {}}>
     
-      {label}{external ? <span className="ext"> ↗</span> : null}
+      {label}{external ? <span className="ext"> ↗︎</span> : null}
     </a>;
 
   return (
@@ -154,7 +154,7 @@ function WFFooter() {
               <ul className="site-foot__links">
                 {links.map(([l, href]) => {
                   const ext = href.startsWith("http");
-                  return <li key={l + href}><a className="muted-link" href={href} {...ext ? { target: "_blank", rel: "noopener noreferrer" } : {}}>{l}{ext ? " ↗" : ""}</a></li>;
+                  return <li key={l + href}><a className="muted-link" href={href} {...ext ? { target: "_blank", rel: "noopener noreferrer" } : {}}>{l}{ext ? " ↗︎" : ""}</a></li>;
                 })}
                 {h === "Site" ? <li><button type="button" className="muted-link foot__credits" onClick={() => setCredits(true)}>Imagery credits</button></li> : null}
               </ul>
