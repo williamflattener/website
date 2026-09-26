@@ -106,7 +106,7 @@ function Hero() {
   return (
     <section className="calm-hero car" id="top" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onFocus={() => setFocus(true)} onBlur={(e) => {if (!e.currentTarget.contains(e.relatedTarget)) setFocus(false);}}>
       <div className="car__bgs" aria-hidden="true">
-        {["assets/video/tunnel.mp4", "assets/video/clouds.mp4", "assets/video/bokeh-dust.mp4", "assets/video/keyboard.mp4"].map((src, n) =>
+        {["assets/video/tunnel.mp4?v=3", "assets/video/clouds.mp4?v=3", "assets/video/bokeh-dust.mp4?v=3", "assets/video/keyboard.mp4?v=3"].map((src, n) =>
         src ?
         <div key={n} className={"car__bg car__bg--vid car__bg--" + n + (n === i ? " is-on" : "")}>
             <video src={src} muted loop playsInline preload={n === 0 ? "auto" : "metadata"} data-bgv={n === i ? "on" : "off"} data-rate={n === 3 ? "0.5" : "1"}></video>
@@ -162,7 +162,7 @@ function Writing() {
 function About() {
   return (
     <section className="section about-vid" id="about">
-      <video className="about-vid__v" data-bgv="on" data-rate="0.5" muted loop playsInline preload="auto" aria-hidden="true" src="assets/video/embers.mp4"></video>
+      <video className="about-vid__v" data-bgv="on" data-rate="0.5" muted loop playsInline preload="auto" aria-hidden="true" src="assets/video/embers.mp4?v=3"></video>
       <div className="wrap about-calm">
         <div className="about-calm__photo">
           <image-slot shape="circle" id="about-portrait" src="assets/img/headshot-about.webp" alt="William Flattener"></image-slot>
