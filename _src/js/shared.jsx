@@ -264,34 +264,12 @@ function Mix({ text, tag, suffix, italic = false }) {
       el.dataset.edge = "1";
       const r = rng(n * 7919 + 1301);
       const amp = 26 + Math.round(r() * 30);
-      // A few broad slopes (the old shape), roughened with small chips
-      // along the whole edge, plus one or two torn, jagged stretches.
       const k = 2 + Math.floor(r() * 3);
-      const knots = [[0, r()]];
-      for (let j = 0; j < k; j++) knots.push([8 + r() * 84, r()]);
-      knots.push([100, r()]);
-      knots.sort((p, q) => p[0] - q[0]);
-      const base = (x) => {
-        let j = 0;
-        while (j < knots.length - 2 && x > knots[j + 1][0]) j++;
-        const [x0, y0] = knots[j], [x1, y1] = knots[j + 1];
-        return y0 + (y1 - y0) * ((x - x0) / (x1 - x0 || 1));
-      };
-      const tears = [];
-      for (let j = 0, m = 1 + Math.floor(r() * 2); j < m; j++) tears.push([6 + r() * 80, 3 + r() * 9]);
-      const inTear = (x) => tears.some(([t, w]) => x >= t && x <= t + w);
-      const clamp = (v) => Math.max(0, Math.min(amp, Math.round(v)));
-      const pts = [];
-      let x = 0;
-      while (x < 100) {
-        const torn = inTear(x);
-        const yb = base(x) * amp * 0.8;
-        const chip = (r() - 0.5) * amp * 0.34;
-        const spike = torn ? (r() < 0.5 ? -1 : 1) * amp * (0.25 + r() * 0.45) : r() < 0.06 ? amp * (0.2 + r() * 0.3) : 0;
-        pts.push(x.toFixed(2) + "% " + clamp(yb + chip + spike) + "px");
-        x += torn ? 0.35 + r() * 0.9 : 0.5 + r() * 2.2;
-      }
-      pts.push("100% " + clamp(base(100) * amp * 0.8) + "px", "100% 100%", "0 100%");
+      const xs = [];
+      for (let j = 0; j < k; j++) xs.push(8 + r() * 84);
+      xs.sort((a, b) => a - b);
+      const y = () => Math.round(r() * amp);
+      const pts = ["0 " + y() + "px"].concat(xs.map((x) => x.toFixed(1) + "% " + y() + "px"), ["100% " + y() + "px", "100% 100%", "0 100%"]);
       el.style.clipPath = "polygon(" + pts.join(",") + ")";
       el.style.marginTop = -amp + "px";
       el.style.position = el.style.position || "relative";
