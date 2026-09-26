@@ -1,0 +1,230 @@
+/* ============================================================
+   WF 3.0 — NOIR. Monochrome, minimal, unlit.
+   Loaded last: remaps FLAT tokens to greyscale and adds the
+   "disappears into the dark / emerges on hover" mechanics.
+   ============================================================ */
+
+:root {
+  /* substrate — true neutral, deeper than before */
+  --ink-900: #050506; --ink-800: #0a0a0b; --ink-700: #0e0e10; --ink-600: #17171a;
+  --smudge-500: #232326; --ash-400: #67676c; --ash-300: #8b8b90;
+  --bone-100: #d4d2cd; --bone-0: #f1efea;
+
+  /* the old hot signal is now light itself */
+  --magenta-300: #ffffff; --magenta-500: #dcdad5;
+  --magenta-700: #34343a; --magenta-900: #101012; --magenta-glow: rgba(241,239,234,.22);
+  --acid-500: #b3b1ab; --acid-700: #67676c; --bruise-500: #2a2a30;
+
+  --signal: #e6e4df; --signal-hover: #ffffff; --signal-press: #a5a39e; --accent-acid: #a5a39e;
+  --border-hair: #141416; --border-rule: #202024; --border-loud: #3d3d43;
+  --link: #d4d2cd; --link-hover: #ffffff;
+  --selection-bg: #e6e4df; --selection-fg: #050506;
+
+  /* deep shadows: things sit in a hole, they don't float */
+  --shadow-ink: 0 34px 70px -24px #000, 0 0 0 1px rgba(255,255,255,.035);
+  --shadow-signal: 0 30px 70px -22px #000, 0 0 0 1px rgba(255,255,255,.09);
+  --shadow-stamp: 0 10px 30px -10px #000;
+  --glow-signal: 0 0 34px rgba(241,239,234,.16);
+
+  --void: #050506;
+  --ease-noir: cubic-bezier(.16,.7,.2,1);
+  --dur-noir: 560ms;
+  --dur-slow: 420ms;
+}
+
+a { color: var(--link); }
+a:hover { color: var(--link-hover); }
+::selection { background: var(--selection-bg); color: var(--selection-fg); }
+
+body { background: var(--void); }
+
+/* ---------- ROOM LIGHT: edge vignette + a torch that follows the cursor ---------- */
+body::after {
+  content: none; display: none; position: fixed; inset: 0; pointer-events: none; z-index: 9996;
+  background:
+    radial-gradient(135% 105% at 24% 14%, transparent 34%, rgba(0,0,0,.34) 72%, rgba(0,0,0,.72) 100%),
+    linear-gradient(90deg, transparent 68%, rgba(0,0,0,.3) 100%);
+}
+.torch {
+  position: fixed; inset: 0; pointer-events: none; z-index: 9997;
+  background: radial-gradient(320px circle at var(--tx, 50%) var(--ty, -30%), rgba(255,255,255,.06), rgba(255,255,255,.018) 45%, transparent 72%);
+  mix-blend-mode: screen; opacity: 0; transition: opacity 600ms var(--ease-noir);
+}
+.torch, .torch.on { display: none; }
+.flat-grain::after { opacity: .045; }
+
+/* ---------- THE VEIL: every panel falls off into black on one side ---------- */
+.veil { position: relative; isolation: isolate; }
+.veil::after {
+  content: ""; position: absolute; inset: -2px -2px -2px 22%; z-index: 3; pointer-events: none;
+  background: linear-gradient(102deg, transparent, rgba(5,5,6,.72) 58%, var(--void) 88%);
+  transition: opacity var(--dur-noir) var(--ease-noir);
+}
+.veil:hover::after, .veil:focus-within::after { opacity: .12; }
+
+/* panels that carry the veil without markup changes */
+.book, .fic-card, .online-link, .rnav, .toc__row, .soon-card, .stat, .fic-hero__cover, .book__cover, .fic-card__cover, .dispatch { position: relative; }
+.book::after, .fic-card::after, .online-link::after, .rnav::after, .toc__row::after, .soon-card::after, .stat::after, .fic-hero__cover::after, .book__cover::after, .fic-card__cover::after {
+  content: ""; position: absolute; inset: 0 -2px -2px 34%; z-index: 4; pointer-events: none;
+  background: linear-gradient(103deg, transparent, rgba(5,5,6,.42) 55%, rgba(5,5,6,.82) 92%);
+  transition: opacity var(--dur-noir) var(--ease-noir);
+}
+.book:hover::after, .book:hover .book__cover::after, .fic-card:hover::after, .fic-card:hover .fic-card__cover::after,
+.online-link:hover::after, .rnav:hover::after, .toc__row:hover::after, .soon-card:hover::after,
+.stat:hover::after, .fic-hero__cover:hover::after { opacity: .1; }
+.toc__row::after { inset: 0 -2px 0 35%; }
+.stat::after { inset: 1px -2px -2px 30%; }
+
+/* dimmed until looked at */
+.emerge { opacity: .74; transition: opacity var(--dur-noir) var(--ease-noir), filter var(--dur-noir) var(--ease-noir); }
+.emerge.lit { opacity: 1; }
+.section-head.emerge, .cat__head.emerge { opacity: 1; }
+@media (prefers-reduced-motion: reduce) { .emerge { opacity: 1; } .torch { display: none; } }
+
+/* ---------- RULES: hairlines that dissolve to the right ---------- */
+.section--rule, .site-foot, .toc, .chap-head { border-top: 0 !important; position: relative; }
+.section--rule::before, .site-foot::before, .toc::before, .chap-head::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, rgba(255,255,255,.3), rgba(255,255,255,.08) 42%, transparent 82%);
+}
+.section-head__rule, .cat__rule {
+  background: linear-gradient(90deg, rgba(255,255,255,.18), transparent 88%);
+  height: 1px;
+}
+.aside-strip { border-top-color: var(--border-hair); border-bottom-color: var(--border-hair); }
+
+/* ---------- NAV ---------- */
+.site-nav {
+  background: linear-gradient(180deg, rgba(5,5,6,.94), rgba(5,5,6,.72));
+  border-bottom: 1px solid var(--border-hair);
+}
+.site-nav__mark { color: #b9b7b2; transition: color var(--dur-slow) var(--ease-noir), text-shadow var(--dur-slow) var(--ease-noir); }
+.site-nav__mark:hover { color: var(--bone-0); text-shadow: var(--glow-signal); }
+.site-nav__mark .dot, .site-foot__mark .dot, .mast .dot, .collage__type .dot, .about-name .dot, .fic-hero__title .dot, .soon__word .dot { color: #4a4a50; }
+.site-nav__mark:hover .dot { color: var(--bone-0); }
+.nav-link { color: #56565b; letter-spacing: .22em; transition: color var(--dur-slow) var(--ease-noir), text-shadow var(--dur-slow) var(--ease-noir); }
+.nav-link:hover { color: var(--bone-0); text-shadow: 0 0 22px rgba(241,239,234,.35); }
+.nav-link[aria-current="page"] { color: #a9a7a2; }
+.nav-link[aria-current="page"]::after { height: 1px; background: rgba(255,255,255,.35); bottom: 0; }
+.nav-link .ext { color: #3f3f45; }
+
+/* ---------- HOME HERO ---------- */
+.collage__photo {
+  border-radius: 0; transform: none; right: 0;
+  filter: grayscale(1) contrast(1.25) brightness(.62);
+  -webkit-mask-image: linear-gradient(205deg, #000 18%, rgba(0,0,0,.55) 68%, transparent 100%);
+  mask-image: linear-gradient(205deg, #000 18%, rgba(0,0,0,.55) 68%, transparent 100%);
+  transition: filter 900ms var(--ease-noir);
+}
+.collage__photo:hover { filter: grayscale(1) contrast(1.15) brightness(1); }
+.collage__type { color: #eae8e3; text-shadow: 0 0 60px rgba(0,0,0,.9); }
+.collage__stamp, .collage__stamp--acid { display: none; }
+.tagline { color: #8e8c88; }
+.tagline .hot, .aside-strip__a .hot, .stat__num em { color: var(--bone-0); }
+.mast, .scream, .soon__word, .about-name, .dispatch__big { color: #eae8e3; }
+.scream span.hot { color: #6e6e73; }
+.hero__name-kick { letter-spacing: .5em; color: #5a5a5f; }
+
+/* ---------- BOOKS / CARDS ---------- */
+.book, .fic-card, .online-link, .rnav, .soon-card, .stat { border-radius: 0; }
+.book__cover, .fic-card__cover, .fic-hero__cover, .about-portrait, .inline-art image-slot {
+  border-radius: 0;
+  filter: grayscale(1) contrast(1.12) brightness(.68);
+  transition: filter 900ms var(--ease-noir), box-shadow var(--dur-noir) var(--ease-noir);
+  box-shadow: 0 40px 80px -30px #000;
+}
+.about-portrait { transform: none; }
+.book:hover .book__cover, .fic-card:hover .fic-card__cover, .fic-hero__cover:hover, .about-portrait:hover, .inline-art:hover image-slot {
+  filter: grayscale(1) contrast(1.05) brightness(1);
+}
+.book__title, .fic-card__title, .toc__title, .rnav__title, .online-link__name, .section-head__title, .cat__title, .soon-card__title {
+  color: #9c9a95; transition: color var(--dur-noir) var(--ease-noir), text-shadow var(--dur-noir) var(--ease-noir);
+}
+.book:hover .book__title, .fic-card:hover .fic-card__title, .toc__row:hover .toc__title,
+.rnav:hover .rnav__title, .online-link:hover .online-link__name {
+  color: var(--bone-0); text-shadow: 0 0 26px rgba(241,239,234,.25);
+}
+.book__dek, .fic-card__dek { color: #77767a; transition: color var(--dur-noir) var(--ease-noir); }
+.book:hover .book__dek, .fic-card:hover .fic-card__dek { color: #b0aeaa; }
+.hot-link { color: #86847f; transition: color var(--dur-noir) var(--ease-noir); }
+.book:hover .hot-link, .hot-link:hover { color: var(--bone-0); }
+.muted-link { color: #4f4f54; transition: color var(--dur-noir) var(--ease-noir); }
+.muted-link:hover { color: var(--bone-0); }
+
+/* ---------- CHIPS / STAMPS (monochrome, quiet) ---------- */
+.chip, .chip--status { color: #5f5f64; background: transparent; border: 1px solid var(--border-rule); }
+.soon-card { border-style: solid; border-color: var(--border-hair); }
+.soon-card__stamp, .soon__stamp {
+  background: transparent; color: #56565b; border: 1px solid var(--border-rule);
+  transform: none; box-shadow: none;
+}
+
+/* ---------- SECTION HEADS ---------- */
+.section-head__folio, .cat__num { color: #46464b; }
+.section-head { align-items: baseline; }
+
+/* ---------- FICTION DETAIL / TOC ---------- */
+.fic-hero__title { color: #eae8e3; }
+.fic-hero__tagline { color: #6e6c69; }
+.fic-blurb p { color: #918f8b; }
+.toc__row { border-bottom: 1px solid var(--border-hair); transition: background var(--dur-noir) var(--ease-noir), padding var(--dur-slow) var(--ease-noir); }
+.toc__row:hover { background: linear-gradient(90deg, rgba(255,255,255,.055), transparent 72%); }
+.toc__n { color: #3f3f45; }
+.toc__meta { color: #4f4f54; }
+.toc__arrow, .online-link__arrow { color: #3f3f45; }
+.toc__row:hover .toc__arrow, .online-link:hover .online-link__arrow { color: var(--bone-0); }
+
+/* ---------- LINK PANELS ---------- */
+.online-link { border: 1px solid var(--border-hair); background: linear-gradient(100deg, rgba(255,255,255,.022), transparent 70%); }
+.online-link:hover { border-color: rgba(255,255,255,.22); transform: none; box-shadow: var(--shadow-signal); }
+.online-link__plat { color: #46464b; }
+.rnav { border: 1px solid var(--border-hair); }
+.rnav:hover { border-color: rgba(255,255,255,.2); transform: none; box-shadow: var(--shadow-signal); }
+.rnav__dir, .rnav-mid { color: #4f4f54; }
+.rnav-mid { border: 1px solid var(--border-hair); }
+.rnav-mid:hover { color: var(--bone-0); border-color: rgba(255,255,255,.2); }
+
+/* ---------- STATS ---------- */
+.stat, .stat--acid { border-top: 1px solid rgba(255,255,255,.14); }
+.stat__num { color: #6e6c69; transition: color var(--dur-noir) var(--ease-noir), text-shadow var(--dur-noir) var(--ease-noir); }
+.stat:hover .stat__num { color: var(--bone-0); text-shadow: 0 0 30px rgba(241,239,234,.2); }
+.stat__label { color: #46464b; }
+
+/* ---------- READER ---------- */
+.chap-head__kick { color: #4f4f54; }
+.chap-head__title { color: #eae8e3; }
+.chap-head__meta, .bcrumb, .bcrumb a { color: #56565b; }
+.bcrumb a:hover { color: var(--bone-0); }
+.prose-body > p { color: #a9a7a3; }
+.prose-body > p:first-of-type::first-letter { color: #eae8e3; }
+.prose-h { color: #8b8985; }
+.scene-break span { color: #3f3f45; }
+.chap-select { background: #0b0b0d; border: 1px solid var(--border-hair); color: #8b8985; }
+.chap-select:hover { color: var(--bone-0); border-color: rgba(255,255,255,.2); }
+.placeholder-ribbon { border-color: var(--border-rule); color: #56565b; background: transparent; }
+.sys-box {
+  border: 1px solid var(--border-rule); background: linear-gradient(100deg, rgba(255,255,255,.03), transparent 78%);
+  box-shadow: 0 30px 60px -28px #000;
+}
+.sys-box__label { background: #1c1c20; color: #b3b1ab; }
+.sys-box__line { color: #9b9995; }
+.stat-sheet { border: 1px solid var(--border-rule); background: linear-gradient(100deg, rgba(255,255,255,.03), transparent 80%); }
+.stat-sheet__title { background: #17171a; color: #b3b1ab; }
+.stat-sheet__v { color: #e2e0db; }
+.level-box { border: 1px solid var(--border-rule); border-left: 2px solid rgba(255,255,255,.28); background: linear-gradient(100deg, rgba(255,255,255,.03), transparent 80%); }
+.level-box__icon, .level-box__text b { color: #e2e0db; }
+.level-box__text { color: #9b9995; }
+.note-box { border-left: 1px solid rgba(255,255,255,.16); background: linear-gradient(100deg, rgba(255,255,255,.028), transparent 78%); color: #98968f; }
+.inline-art__cap { color: #46464b; }
+
+/* ---------- FOOTER: sinks into the floor ---------- */
+.site-foot {
+  padding-bottom: clamp(3rem, 8vw, 7rem);
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,.9));
+}
+.site-foot__mark { color: #46464b; transition: color var(--dur-noir) var(--ease-noir); }
+.site-foot__mark:hover { color: var(--bone-0); }
+
+/* ---------- BUTTONS from the bundle: quiet until touched ---------- */
+.flat-btn { border-radius: 0 !important; transition: all var(--dur-slow) var(--ease-noir) !important; }
+.flat-btn:hover { box-shadow: 0 0 40px -6px rgba(241,239,234,.22) !important; }

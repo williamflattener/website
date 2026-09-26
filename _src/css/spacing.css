@@ -1,0 +1,45 @@
+/* ============================================================
+   FLAT — SPACING, GRID & GEOMETRY
+   There is a grid. We acknowledge it, then disrespect it.
+   ============================================================ */
+
+:root {
+  /* --- SPACING SCALE (4px base) --- */
+  --sp-0: 0; /* @kind spacing */
+  --sp-1: 0.25rem;  /* 4 */
+  --sp-2: 0.5rem;   /* 8 */
+  --sp-3: 0.75rem;  /* 12 */
+  --sp-4: 1rem;     /* 16 */
+  --sp-5: 1.5rem;   /* 24 */
+  --sp-6: 2rem;     /* 32 */
+  --sp-7: 3rem;     /* 48 */
+  --sp-8: 4rem;     /* 64 */
+  --sp-9: 6rem;     /* 96 */
+  --sp-10: 8rem;    /* 128 */
+
+  /* --- RADII: corners are sharp. Paper is cut, not rounded. --- */
+  --radius-0: 0;        /* default — everything */
+  --radius-sm: 2px;     /* the rare exception */
+  --radius-pill: 999px; /* only for tags pretending to be stickers */
+
+  /* --- BORDERS --- */
+  --bw-hair: 1px;
+  --bw-rule: 2px;       /* default editorial rule */
+  --bw-loud: 4px;       /* signal underlines, blockquote bars */
+  --bw-slab: 10px;      /* masthead bars, full-bleed dividers */
+
+  /* --- LAYOUT --- */
+  --measure: 64ch;        /* @kind other */ /* ideal reading column */
+  --measure-tight: 48ch; /* @kind other */
+  --page-margin: clamp(1rem, 5vw, 5rem); /* @kind spacing */
+  --gutter: 1.5rem; /* @kind spacing */
+  --maxw-page: 1320px; /* @kind other */
+
+  /* --- CHAOS UTILITIES (Carson tax) ---
+     Intentional rule-breaking, tokenized so it stays controllable. */
+  --skew-zine: -4deg; /* @kind other */
+  --rot-tag: -7deg; /* @kind other */
+  --rot-stamp: 6deg; /* @kind other */
+  --shift-baseline: -0.12em; /* @kind other */
+  --overlap: -0.35em; /* @kind other */
+}

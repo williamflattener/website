@@ -1,0 +1,132 @@
+/* ============================================================
+   FLAT — BASE LAYER
+   Element defaults + the house utility classes that encode the
+   zine voice. Author screens against these; they pull tokens.
+   ============================================================ */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--page-bg);
+  color: var(--text-body);
+  font-family: var(--font-sans);
+  font-size: var(--t-body);
+  line-height: var(--lh-body);
+  font-weight: var(--w-regular);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* --- HEADINGS: default to the condensed scream; opt into Abril --- */
+h1, h2, h3, h4, h5 {
+  margin: 0 0 var(--sp-3);
+  font-family: var(--font-condensed);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--tr-tight);
+  color: var(--text-strong);
+  text-transform: uppercase;
+}
+h1 { font-size: var(--t-h1); line-height: var(--lh-crush); letter-spacing: var(--tr-collapse); }
+h2 { font-size: var(--t-h2); line-height: var(--lh-crush); letter-spacing: var(--tr-collapse); }
+h3 { font-size: var(--t-h3); }
+h4 { font-size: var(--t-h4); }
+h5 { font-size: var(--t-h5); }
+
+p { margin: 0 0 var(--sp-5); max-width: var(--measure); }
+
+a { color: var(--link); text-decoration: none; }
+a:hover { color: var(--link-hover); }
+
+strong, b { font-weight: var(--w-bold); color: var(--text-strong); }
+em, i { font-style: italic; }
+
+hr {
+  border: 0;
+  border-top: var(--bw-rule) solid var(--border-rule);
+  margin: var(--sp-6) 0;
+}
+
+code, pre, kbd { font-family: var(--font-mono); }
+
+/* ============================================================
+   HOUSE UTILITY CLASSES — the FLAT vocabulary
+   ============================================================ */
+
+/* Masthead / cover type — Abril, colossal, cropped, layered */
+.flat-display {
+  font-family: var(--font-display);
+  font-weight: var(--w-regular);
+  line-height: var(--lh-crush);
+  letter-spacing: var(--tr-collapse);
+  color: var(--text-strong);
+  text-transform: none;
+}
+
+/* Stacked condensed headline */
+.flat-stack {
+  font-family: var(--font-condensed);
+  text-transform: uppercase;
+  line-height: var(--lh-crush);
+  letter-spacing: var(--tr-tight);
+}
+
+/* Kicker / eyebrow — spaced mono label */
+.flat-kicker {
+  font-family: var(--font-mono);
+  font-size: var(--t-micro);
+  letter-spacing: var(--tr-blown);
+  text-transform: uppercase;
+  color: var(--signal);
+}
+
+/* Byline / marginalia — distressed typewriter */
+.flat-byline {
+  font-family: var(--font-typewriter);
+  font-size: var(--t-small);
+  color: var(--text-muted);
+}
+
+/* Folio — page number / issue metadata */
+.flat-folio {
+  font-family: var(--font-mono);
+  font-size: var(--t-folio);
+  letter-spacing: var(--tr-blown);
+  text-transform: uppercase;
+  color: var(--text-caption);
+}
+
+/* Lede paragraph — the one big readable intro */
+.flat-lede {
+  font-family: var(--font-grotesque);
+  font-size: var(--t-body-lg);
+  line-height: var(--lh-snug);
+  color: var(--text-strong);
+}
+
+/* Hot inline highlight */
+.flat-hot { color: var(--signal); }
+.flat-acid { color: var(--accent-acid); }
+
+/* Knockout: signal block, ink type */
+.flat-knockout {
+  background: var(--signal);
+  color: var(--text-on-signal);
+  padding: 0.05em 0.25em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* CHAOS modifiers — apply deliberately */
+.flat-skew   { transform: skewY(var(--skew-zine)); }
+.flat-rotate { transform: rotate(var(--rot-tag)); }
+.flat-stamp  { transform: rotate(var(--rot-stamp)); }
+.flat-drop   { text-shadow: var(--shadow-signal); }
+.flat-mix    { font-family: var(--font-display); } /* swap a single word's face */
+
+/* Editorial rules */
+.flat-rule-loud { border-top: var(--bw-slab) solid var(--signal); }
+.flat-rule-thin { border-top: var(--bw-hair) solid var(--border-hair); }

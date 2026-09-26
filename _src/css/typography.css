@@ -1,0 +1,57 @@
+/* ============================================================
+   FLAT — TYPOGRAPHY TOKENS
+   Mix promiscuously. Abril leads. Everything else argues.
+   David Carson rule: legibility is not the same as communication.
+   ============================================================ */
+
+:root {
+  /* --- FONT STACKS --- */
+  /* Lead display: high-contrast Didone black. The masthead voice. */
+  --font-display: "Abril Fatface", "Didot", Georgia, serif;
+  /* Condensed heavy grotesque. Stacked headlines, screaming decks. */
+  --font-condensed: "Anton", "Oswald", "Impact", sans-serif;
+  /* Contemporary distorted grotesque. Subheads, kickers, weird bits. */
+  --font-grotesque: "Bricolage Grotesque", "Archivo", sans-serif;
+  /* Workhorse sans. Body, UI, captions when you need to behave. */
+  --font-sans: "Archivo", "Helvetica Neue", Arial, sans-serif;
+  /* Distressed typewriter. Bylines, marginalia, the photocopied voice. */
+  --font-typewriter: "Special Elite", "Courier New", monospace;
+  /* Clean mono. Folios, metadata, issue numbers, code. */
+  --font-mono: "Courier Prime", "Courier New", monospace;
+
+  /* --- TYPE SCALE (deliberately wide; the system encourages extremes) --- */
+  --t-folio:    0.6875rem;  /* 11px — page numbers, runts */
+  --t-micro:    0.75rem;    /* 12px — credits, fine print */
+  --t-caption:  0.8125rem;  /* 13px */
+  --t-small:    0.9375rem;  /* 15px */
+  --t-body:     1.0625rem;  /* 17px — reading size */
+  --t-body-lg:  1.25rem;    /* 20px — lede paragraphs */
+  --t-h5:       1.5rem;     /* 24px */
+  --t-h4:       2rem;       /* 32px */
+  --t-h3:       3rem;       /* 48px */
+  --t-h2:       4.5rem;     /* 72px */
+  --t-h1:       7rem;       /* 112px */
+  --t-mega:     12rem;      /* 192px — cover type, bleeds off page */
+  --t-colossal: 20rem;      /* 320px — masthead, cropped intentionally */
+
+  /* --- WEIGHTS --- */
+  --w-regular: 400; /* @kind font */
+  --w-medium: 500; /* @kind font */
+  --w-semibold: 600; /* @kind font */
+  --w-bold: 700; /* @kind font */
+  --w-black: 900; /* @kind font */
+
+  /* --- LINE HEIGHTS --- */
+  --lh-crush: 0.82; /* @kind font */   /* display: lines overlap */
+  --lh-tight: 0.95; /* @kind font */
+  --lh-snug: 1.1; /* @kind font */
+  --lh-body: 1.55; /* @kind font */    /* the one place we breathe */
+  --lh-loose: 1.8; /* @kind font */
+
+  /* --- TRACKING --- */
+  --tr-collapse: -0.06em; /* @kind font */ /* letters touch */
+  --tr-tight: -0.02em; /* @kind font */
+  --tr-normal: 0; /* @kind font */
+  --tr-wide: 0.08em; /* @kind font */      /* kickers, eyebrows */
+  --tr-blown: 0.28em; /* @kind font */     /* spaced folios / labels */
+}

@@ -1,0 +1,64 @@
+/* ============================================================
+   FLAT — COLOR TOKENS
+   A zine printed in the dark. Smudged ink, one hot signal.
+   ============================================================ */
+
+:root {
+  /* --- INK: the dark substrate (cheap toner on cheaper paper) --- */
+  --ink-900: #0a090c;   /* page void — almost black, a breath of violet */
+  --ink-800: #121017;   /* raised surface / panels */
+  --ink-700: #1b1820;   /* cards, wells */
+  --ink-600: #262230;   /* hairline borders, dividers */
+  --smudge-500: #3a3442; /* heavy rules, inactive chrome */
+  --ash-400: #6a6273;   /* muted / secondary text */
+  --ash-300: #948b9e;   /* tertiary, captions on dark */
+
+  /* --- BONE: newsprint white, never pure --- */
+  --bone-100: #ECE5D8;  /* primary text on ink */
+  --bone-0:   #FBF7EE;  /* brightest highlight, paper */
+
+  /* --- MAGENTA: the one signal that screams --- */
+  --magenta-300: #FF6FB0; /* tint / hover lift */
+  --magenta-500: #FF2E88; /* PRIMARY signal */
+  --magenta-700: #C8005E; /* pressed / deep */
+  --magenta-900: #7A0039; /* shadow body */
+  --magenta-glow: rgba(255, 46, 136, 0.45); /* halation */
+
+  /* --- ACID: rare second spot color. Use like a paper cut. --- */
+  --acid-500: #E8FF3A;  /* electric lime-yellow — sparingly! */
+  --acid-700: #B6CC00;
+
+  /* --- BRUISE: optional cold purple for layered type --- */
+  --bruise-500: #6A2BFF;
+
+  /* ============================================================
+     SEMANTIC ALIASES — author against these
+     ============================================================ */
+  --page-bg:        var(--ink-900);
+  --surface-raised: var(--ink-800);
+  --surface-card:   var(--ink-700);
+  --surface-well:   var(--ink-800);
+
+  --text-strong:  var(--bone-0);
+  --text-body:    var(--bone-100);
+  --text-muted:   var(--ash-400);
+  --text-caption: var(--ash-300);
+  --text-on-signal: var(--ink-900);
+
+  --signal:        var(--magenta-500);
+  --signal-hover:  var(--magenta-300);
+  --signal-press:  var(--magenta-700);
+  --signal-glow:   var(--magenta-glow);
+  --accent-acid:   var(--acid-500);
+
+  --border-hair:  var(--ink-600);
+  --border-rule:  var(--smudge-500);
+  --border-loud:  var(--magenta-500);
+
+  --link:        var(--magenta-500);
+  --link-hover:  var(--magenta-300);
+  --selection-bg: var(--magenta-500);
+  --selection-fg: var(--ink-900);
+}
+
+::selection { background: var(--selection-bg); color: var(--selection-fg); }

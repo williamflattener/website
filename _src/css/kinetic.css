@@ -1,0 +1,131 @@
+/* ============================================================
+   WF 3.0 — KINETIC. Editorial-agency motion on top of noir.
+   Loaded last. Original patterns, FLAT type only:
+   stacked display lines, tickers, invert-on-hover index rows,
+   cursor-tracked cover peek, count-ups, knockout grid.
+   ============================================================ */
+
+/* ---------- TICKER ---------- */
+.kx-ticker { position: relative; overflow: hidden; border-top: 1px solid var(--border-hair); border-bottom: 1px solid var(--border-hair); padding: .7rem 0; background: rgba(255,255,255,.014); }
+.kx-ticker__track { display: flex; gap: 3.5rem; width: max-content; animation: kx-scroll 46s linear infinite; will-change: transform; }
+.kx-ticker--rev .kx-ticker__track { animation-direction: reverse; }
+.kx-ticker:hover .kx-ticker__track { animation-play-state: paused; }
+.kx-ticker span { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .34em; text-transform: uppercase; color: #56565b; white-space: nowrap; transition: color 400ms var(--ease-noir); }
+.kx-ticker:hover span { color: #a9a7a2; }
+.kx-ticker span em { font-style: normal; color: var(--bone-0); }
+@keyframes kx-scroll { to { transform: translateX(-50%); } }
+
+/* ---------- STACKED DISPLAY HEADLINE ---------- */
+.kx-hero { position: relative; padding: clamp(3rem, 7vw, 7rem) 0 clamp(3rem, 6vw, 6rem); overflow: hidden; }
+.kx-hero__art { position: absolute; top: 0; right: 0; width: min(46vw, 620px); height: 100%; z-index: 0; opacity: .55; }
+.kx-hero__art image-slot { width: 100%; height: 100%; filter: grayscale(1) contrast(1.15) brightness(.72); -webkit-mask-image: linear-gradient(215deg, #000 4%, rgba(0,0,0,.34) 52%, transparent 84%), linear-gradient(#000 52%, transparent 92%); -webkit-mask-composite: source-in; mask-image: linear-gradient(215deg, #000 4%, rgba(0,0,0,.34) 52%, transparent 84%), linear-gradient(#000 52%, transparent 92%); mask-composite: intersect; }
+.kx-stack { position: relative; z-index: 2; margin: 0; }
+.kx-line { display: block; overflow: hidden; }
+.kx-line > span { display: block; font-family: var(--font-condensed); text-transform: uppercase; font-size: clamp(3.4rem, 13.5vw, 12rem); line-height: .84; letter-spacing: -.015em; color: #eae8e3; transform: translateY(108%); transition: transform 900ms cubic-bezier(.16,.84,.2,1), color 500ms var(--ease-noir); }
+.kx-stack.lit .kx-line > span { transform: translateY(0); }
+.kx-line:nth-child(2) > span { transition-delay: 90ms; }
+.kx-line:nth-child(3) > span { transition-delay: 180ms; }
+.kx-line:nth-child(4) > span { transition-delay: 270ms; }
+.kx-line--out > span { color: transparent; -webkit-text-stroke: 1px #4e4e54; }
+.kx-line--alt > span { font-family: var(--font-display); text-transform: none; letter-spacing: -.03em; font-size: clamp(3.6rem, 14vw, 13rem); transform: translateY(108%) skewX(-7deg); }
+.kx-stack.lit .kx-line--alt > span { transform: translateY(0) skewX(-7deg); }
+.kx-stack:hover .kx-line--out > span { -webkit-text-stroke: 1px var(--bone-0); }
+.kx-hero__meta { position: relative; z-index: 2; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: var(--sp-6); margin-top: clamp(1.5rem, 4vw, 3rem); }
+.kx-hero__say { font-family: var(--font-typewriter); font-size: 1.05rem; line-height: 1.5; color: #8e8c88; max-width: 30ch; margin: 0; }
+.kx-hero__say b { color: var(--bone-0); font-weight: 400; }
+.kx-hero__cta { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
+
+/* ---------- COUNT-UP STRIP ---------- */
+.kx-strip { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--border-rule); }
+@media (max-width: 640px) { .kx-strip { grid-template-columns: 1fr; } }
+.kx-stat { padding: var(--sp-6) 0 var(--sp-5); position: relative; }
+.kx-stat + .kx-stat { border-left: 1px solid var(--border-hair); padding-left: var(--sp-6); }
+.kx-stat__n { font-family: var(--font-condensed); font-size: clamp(2.6rem, 6vw, 4.6rem); line-height: .9; color: #6e6c69; transition: color 500ms var(--ease-noir), text-shadow 500ms var(--ease-noir); }
+.kx-stat:hover .kx-stat__n { color: var(--bone-0); text-shadow: 0 0 34px rgba(241,239,234,.22); }
+.kx-stat__l { font-family: var(--font-mono); font-size: .68rem; letter-spacing: .28em; text-transform: uppercase; color: #46464b; margin-top: var(--sp-2); }
+
+/* ---------- INDEX ROWS (invert on hover) ---------- */
+.kx-idx { border-top: 1px solid var(--border-rule); }
+.kx-row { position: relative; display: grid; grid-template-columns: 5.5rem 1fr auto; align-items: center; gap: var(--sp-5); padding: clamp(1.1rem, 2.6vw, 2rem) var(--sp-5); border-bottom: 1px solid var(--border-hair); text-decoration: none; overflow: hidden; }
+.kx-row::before { content: ""; position: absolute; inset: 0; background: var(--bone-0); transform: translateY(101%); transition: transform 520ms cubic-bezier(.16,.84,.2,1); z-index: 0; }
+.kx-row:hover::before, .kx-row:focus-visible::before { transform: translateY(0); }
+.kx-row > * { position: relative; z-index: 1; }
+.kx-row__n { font-family: var(--font-mono); font-size: .78rem; letter-spacing: .2em; color: #46464b; transition: color 380ms var(--ease-noir); }
+.kx-row__t { font-family: var(--font-condensed); text-transform: uppercase; font-size: clamp(1.5rem, 4.4vw, 3.4rem); line-height: .95; letter-spacing: -.01em; color: #9c9a95; margin: 0; transition: color 380ms var(--ease-noir), transform 520ms cubic-bezier(.16,.84,.2,1); }
+.kx-row__sub { display: block; font-family: var(--font-display); font-size: clamp(.95rem, 1.5vw, 1.35rem); text-transform: none; letter-spacing: 0; color: #5f5f64; transform: skewX(-7deg); transition: color 380ms var(--ease-noir); }
+.kx-row__go { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .26em; text-transform: uppercase; color: #3f3f45; white-space: nowrap; transition: color 380ms var(--ease-noir), transform 480ms var(--ease-noir); }
+.kx-row:hover .kx-row__n, .kx-row:hover .kx-row__sub { color: #6a6862; }
+.kx-row:hover .kx-row__t { color: var(--ink-900); transform: translateX(clamp(.4rem, 1.4vw, 1.4rem)); }
+.kx-row:hover .kx-row__go { color: var(--ink-900); transform: translateX(.5rem); }
+.kx-row.emerge { opacity: 1; }
+
+/* ---------- CURSOR-TRACKED PEEK ---------- */
+.kx-peek { position: fixed; top: 0; left: 0; width: 210px; height: 300px; z-index: 9998; pointer-events: none; opacity: 0; transform: translate(-50%, -50%) scale(.92) rotate(-3deg); transition: opacity 320ms var(--ease-noir), transform 420ms cubic-bezier(.16,.84,.2,1); box-shadow: 0 40px 90px -30px #000; }
+.kx-peek.on { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-3deg); }
+.kx-peek img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.08); }
+.kx-peek__fall { width: 100%; height: 100%; display: grid; place-items: center; padding: var(--sp-4); background: #0c0c0e; border: 1px solid rgba(255,255,255,.18); font-family: var(--font-mono); font-size: .66rem; letter-spacing: .24em; text-transform: uppercase; color: #56565b; text-align: center; }
+@media (hover: none) { .kx-peek { display: none; } }
+
+/* ---------- VIEW TOGGLE + KNOCKOUT GRID ---------- */
+.kx-bar { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-5); padding-bottom: var(--sp-5); }
+.kx-bar__h { font-family: var(--font-display); font-size: clamp(1.7rem, 4vw, 3rem); line-height: 1; color: #eae8e3; margin: 0; }
+.kx-toggle { display: flex; gap: 0; border: 1px solid var(--border-rule); }
+.kx-toggle button { appearance: none; background: transparent; border: 0; padding: .5rem .95rem; font-family: var(--font-mono); font-size: .66rem; letter-spacing: .24em; text-transform: uppercase; color: #56565b; cursor: pointer; transition: color 260ms var(--ease-noir), background 260ms var(--ease-noir); }
+.kx-toggle button + button { border-left: 1px solid var(--border-hair); }
+.kx-toggle button:hover { color: var(--bone-0); }
+.kx-toggle button[aria-pressed="true"] { background: var(--bone-0); color: var(--ink-900); }
+.kx-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: clamp(1rem, 3vw, 2.4rem); }
+@media (max-width: 700px) { .kx-grid { grid-template-columns: 1fr; } }
+.kx-tile { position: relative; display: block; text-decoration: none; border: 1px solid var(--border-hair); overflow: hidden; }
+.kx-tile__art { position: relative; aspect-ratio: 3/4; overflow: hidden; background: #0b0b0d; }
+.kx-mirror { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 20%; display: none; filter: grayscale(1) contrast(1.15) brightness(.6); transition: filter 800ms var(--ease-noir), transform 900ms cubic-bezier(.16,.84,.2,1); }
+.kx-tile:hover .kx-mirror { filter: grayscale(1) contrast(1.02) brightness(1); transform: scale(1.04); }
+.kx-tile__art image-slot { width: 100%; height: 100%; filter: grayscale(1) contrast(1.15) brightness(.6); transition: filter 800ms var(--ease-noir), transform 900ms cubic-bezier(.16,.84,.2,1); }
+.kx-tile:hover .kx-tile__art image-slot { filter: grayscale(1) contrast(1.02) brightness(1); transform: scale(1.04); }
+.kx-tile__vs { position: absolute; top: 0; left: 0; z-index: 2; display: flex; flex-direction: column; padding: var(--sp-4) var(--sp-4) 0; pointer-events: none; }
+.kx-tile__vs span { font-family: var(--font-condensed); text-transform: uppercase; font-size: clamp(1rem, 2.2vw, 1.7rem); line-height: .78; color: rgba(241,239,234,.5); transition: color 500ms var(--ease-noir); }
+.kx-tile:hover .kx-tile__vs span { color: var(--bone-0); }
+.kx-tile__foot { display: flex; align-items: baseline; justify-content: space-between; gap: var(--sp-4); padding: var(--sp-5); }
+.kx-tile__t { font-family: var(--font-condensed); text-transform: uppercase; font-size: clamp(1.1rem, 2vw, 1.6rem); line-height: 1; color: #9c9a95; margin: 0; transition: color 400ms var(--ease-noir); }
+.kx-tile:hover .kx-tile__t { color: var(--bone-0); }
+.kx-tile__m { font-family: var(--font-mono); font-size: .66rem; letter-spacing: .22em; text-transform: uppercase; color: #46464b; }
+.kx-hide { display: none; }
+
+/* ---------- FOOTER MARQUEE WORDMARK ---------- */
+.kx-foot-mq { overflow: hidden; border-top: 1px solid var(--border-hair); padding: clamp(.6rem, 1.6vw, 1.2rem) 0 0; }
+.kx-foot-mq__track { display: flex; gap: 3vw; width: max-content; animation: kx-scroll 34s linear infinite; }
+.kx-foot-mq span { font-family: var(--font-display); font-size: clamp(3.5rem, 12vw, 11rem); line-height: .9; color: transparent; -webkit-text-stroke: 1px #26262b; white-space: nowrap; transition: -webkit-text-stroke-color 600ms var(--ease-noir); }
+.kx-foot-mq:hover span { -webkit-text-stroke-color: #6e6c69; }
+.kx-foot-mq span .dot { color: #26262b; -webkit-text-stroke: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .kx-ticker__track, .kx-foot-mq__track { animation: none; }
+  .kx-line > span { transform: none !important; }
+  .kx-peek { display: none; }
+}
+
+/* ============================================================
+   CHAOS TYPE — Ray Gun / Readymag-style face mixing.
+   One line, many faces. Deterministic per-character assignment
+   (see Mix in shared.jsx) so it never reflows or flickers.
+   ============================================================ */
+.kx-mix { display: inline; }
+.kx-mix > span { display: inline-block; }
+.kx-mix .mx-w { display: inline-block; white-space: nowrap; }
+/* a suffix (the magenta .dot) rides inside the last mixed word */
+.kx-mix .mx-w > .dot { display: inline; }
+.kx-mix .mx-sp { display: inline-block; white-space: pre; min-width: .2em; }
+.kx-mix .mx-d { font-family: var(--font-display); font-size: 1.06em; letter-spacing: -.02em; }
+.kx-mix .mx-c { font-family: var(--font-condensed); font-size: 1.02em; }
+.kx-mix .mx-g { font-family: var(--font-grotesque); font-weight: 800; font-size: .97em; }
+.kx-mix .mx-gi { font-family: var(--font-grotesque); font-weight: 600; font-style: italic; font-size: .95em; }
+.kx-mix .mx-di { font-family: var(--font-display); font-size: 1.04em; transform: skewX(-11deg); }
+.kx-mix .mx-t { font-family: var(--font-typewriter); font-size: .84em; }
+.kx-mix .mx-lc { text-transform: lowercase; font-family: var(--font-display); font-size: 1.18em; }
+.kx-mix .mx-up { position: relative; top: -.05em; }
+.kx-mix .mx-dn { position: relative; top: .045em; }
+
+/* the one thing that screams: a single glyph flips to signal on hover */
+.kx-mix > span { transition: color 220ms var(--ease-cut, ease-out); }
+
+@media (prefers-reduced-motion: reduce) { .kx-mix .mx-di { transform: none; } }
