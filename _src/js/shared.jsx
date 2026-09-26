@@ -247,34 +247,31 @@ function Mix({ text, tag, suffix, italic = false }) {
   q();
 })();
 
-/* JAGGED EDGES — each section's top edge is cut into a unique irregular
-   polyline and tucked up over the previous section. Seeded per position,
-   so shapes are stable across reloads but never repeat. */
+/* SECTION EDGES — each section's top edge is cut to a hand-drawn shape
+   and tucked up over the previous section. One entry per section after
+   the hero, in page order. amp = edge depth in px; pts = [x %, y px]
+   from left (0) to right (100). Shaped in the Claude Design edge editor. */
+const WF_EDGES = [
+  { amp: 28, pts: [[0, 10], [7.2, 4], [11.6, 16], [21.2, 11], [46.2, 27], [48.6, 9], [100, 0]] }, // writing
+  { amp: 37, pts: [[0, 6], [16.3, 8], [20, 1], [22.5, 6], [38.3, 15], [100, 35]] }, // about
+  { amp: 40, pts: [[0, 34], [20.7, 13], [21, 2], [63.1, 24], [81.8, 10], [84.4, 23], [100, 10]] }, // flatposting
+  { amp: 46, pts: [[0, 46], [41.3, 6], [43.9, 18], [81.4, 30], [100, 0]] }, // signup
+  { amp: 38, pts: [[0, 13], [18.6, 13], [27.4, 27], [100, 35]] }, // online
+  { amp: 35, pts: [[0, 8], [13.4, 35], [79.8, 0], [100, 30]] }, // footer
+];
 (function edges() {
-  const rng = (seed) => () => {
-    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
-    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
-    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-  };
   const cut = () => {
     const els = [...document.querySelectorAll("#app > div > section, #app > div > footer")];
     els.forEach((el, n) => {
-      if (n === 0 || el.dataset.edge) return;
+      const e = WF_EDGES[n - 1];
+      if (!e || el.dataset.edge) return;
       el.dataset.edge = "1";
-      const r = rng(n * 7919 + 1301);
-      const amp = 26 + Math.round(r() * 30);
-      const k = 2 + Math.floor(r() * 3);
-      const xs = [];
-      for (let j = 0; j < k; j++) xs.push(8 + r() * 84);
-      xs.sort((a, b) => a - b);
-      const y = () => Math.round(r() * amp);
-      const pts = ["0 " + y() + "px"].concat(xs.map((x) => x.toFixed(1) + "% " + y() + "px"), ["100% " + y() + "px", "100% 100%", "0 100%"]);
+      const pts = e.pts.map(([x, y]) => x + "% " + y + "px").concat(["100% 100%", "0 100%"]);
       el.style.clipPath = "polygon(" + pts.join(",") + ")";
-      el.style.marginTop = -amp + "px";
+      el.style.marginTop = -e.amp + "px";
       el.style.position = el.style.position || "relative";
       const pt = parseFloat(getComputedStyle(el).paddingTop) || 0;
-      el.style.paddingTop = pt + amp + "px";
+      el.style.paddingTop = pt + e.amp + "px";
     });
   };
   new MutationObserver(cut).observe(document.getElementById("app") || document.body, { childList: true, subtree: true });
