@@ -47,7 +47,6 @@ body::after { content: none !important; }
 .nav-link[aria-current="page"] { opacity: 1; color: var(--bone-0); }
 .nav-link { position: relative; }
 .nav-link::after { content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 0; background: none; border-bottom: 3px dotted var(--signal); transform: scaleX(0); transform-origin: left; transition: transform var(--dur-base) var(--ease-cut); }
-.nav-link:hover::after { transform: scaleX(1); opacity: .5; }
 .nav-link[aria-current="page"]::after { height: 0; background: none; border-bottom: 3px dotted var(--signal); bottom: -6px; transform: scaleX(1); opacity: 1; }
 .nav-link .ext { color: inherit; opacity: .6; }
 
