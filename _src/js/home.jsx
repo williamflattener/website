@@ -74,7 +74,7 @@ function Hero() {
   const slides = [
   <div className="car__grid">
       <div className="car__copy">
-        <h1 className="calm-hero__h"><Mix text="Next-level web fiction" italic={false} suffix={<span className="dot">.</span>} /></h1>
+        <h1 className="calm-hero__h"><Mix text="Next-level webfiction" italic={false} suffix={<span className="dot">.</span>} /></h1>
         <p className="calm-hero__p">Science fiction and fantasy inspired by the infinite potential of gameworlds.</p>
         <div className="calm-cta">
           <Button as="a" href="#writing" variant="signal" size="lg">See the writing ↗︎</Button>
@@ -103,7 +103,7 @@ function Hero() {
           </form>}
       </div>
     </div>];
-  const labels = ["Web fiction", "Commander Z", "The Dump Stat", "Newsletter"];
+  const labels = ["Webfiction", "Commander Z", "The Dump Stat", "Newsletter"];
   return (
     <section className="calm-hero car" id="top" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onFocus={() => setFocus(true)} onBlur={(e) => {if (!e.currentTarget.contains(e.relatedTarget)) setFocus(false);}}>
       <div className="car__bgs" aria-hidden="true">

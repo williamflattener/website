@@ -98,7 +98,7 @@ const WF_FOOT = [
 ["Find William", [["Discord", "https://discord.gg/6sm7TZEneT"], ["Bluesky", "https://bsky.app/profile/williamflattener.bsky.social"], ["Instagram", "https://www.instagram.com/william.flattener/"], ["Twitch", "https://www.twitch.tv/williamflattener"]]]];
 
 const WF_CREDITS = [
-{ what: "Carousel background: Next-level web fiction (tunnel portal)", by: "Pixabay contributor", byHref: "https://pixabay.com/videos/tunnel-portal-glow-futuristic-84938/", from: "Pixabay", fromHref: "https://pixabay.com/videos/tunnel-portal-glow-futuristic-84938/" },
+{ what: "Carousel background: Next-level webfiction (tunnel portal)", by: "Pixabay contributor", byHref: "https://pixabay.com/videos/tunnel-portal-glow-futuristic-84938/", from: "Pixabay", fromHref: "https://pixabay.com/videos/tunnel-portal-glow-futuristic-84938/" },
 { what: "Carousel background: Commander Z (clouds)", by: "Vimeo-Free-Videos", byHref: "https://pixabay.com/users/vimeo-free-videos-1283884/", from: "Pixabay", fromHref: "https://pixabay.com/videos/clouds-cloudscape-sky-air-1154/" },
 { what: "Carousel background: The Dump Stat (bokeh)", by: "ilhozc", byHref: "https://pixabay.com/users/ilhozc-7240842/", from: "Pixabay", fromHref: "https://pixabay.com/videos/bokeh-lights-particles-dust-glitter-137666/" },
 { what: "Carousel background: Newsletter (keyboard)", by: "Vimeo-Free-Videos", byHref: "https://pixabay.com/users/vimeo-free-videos-1283884/", from: "Pixabay", fromHref: "https://pixabay.com/videos/keyboard-hands-writing-computer-1046/" },
