@@ -29,15 +29,29 @@ const ONLINE = [
 
 function Hero() {
   const [i, setI] = React.useState(0);
-  const [paused, setPaused] = React.useState(false);
+  const [hover, setHover] = React.useState(false);
+  const [focus, setFocus] = React.useState(false);
+  const [manual, setManual] = React.useState(false);
   const [email, setEmail] = React.useState(false);
   const N = 4;
   const go = (n) => setI((n + N) % N);
+  const pick = (n) => {setManual(true);go(n);};
+  // Default: advance every 11s, before the 12s background clip loops, and
+  // don't pause on hover. Once the visitor uses the controls, the original
+  // rules apply: 7s slides that pause on hover. Focus inside (e.g. typing
+  // an email) always pauses.
+  const dwell = manual ? 7000 : 11000;
+  const paused = focus || manual && hover;
   React.useEffect(() => {
     if (paused || window.wfReduced()) return;
-    const t = setTimeout(() => go(i + 1), 7000);
+    const t = setTimeout(() => go(i + 1), dwell);
     return () => clearTimeout(t);
-  }, [i, paused]);
+  }, [i, paused, dwell]);
+  // Each slide's video starts from the top when the slide comes in.
+  React.useEffect(() => {
+    const v = document.querySelector(".car__bg--" + i + " video");
+    if (v) try {v.currentTime = 0;} catch (e) {}
+  }, [i]);
   const book = (b) =>
   <div className="car__grid">
       <div className="car__copy">
@@ -62,7 +76,7 @@ function Hero() {
         <h1 className="calm-hero__h"><Mix text="Next-level web fiction" italic={false} suffix={<span className="dot">.</span>} /></h1>
         <p className="calm-hero__p">Science fiction and fantasy inspired by the infinite potential of gameworlds.</p>
         <div className="calm-cta">
-          <Button as="a" href="#writing" variant="signal" size="lg">See the writing →</Button>
+          <Button as="a" href="#writing" variant="signal" size="lg">See the writing ↗</Button>
           <Button as="a" href={PATREON} target="_blank" rel="noopener noreferrer" variant="ghost" size="lg">Support on Patreon ↗</Button>
         </div>
       </div>
@@ -90,7 +104,7 @@ function Hero() {
     </div>];
   const labels = ["Web fiction", "Commander Z", "The Dump Stat", "Newsletter"];
   return (
-    <section className="calm-hero car" id="top" onMouseEnter={() => setPaused(true)} onMouseLeave={() => setPaused(false)} onFocus={() => setPaused(true)} onBlur={() => setPaused(false)}>
+    <section className="calm-hero car" id="top" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onFocus={() => setFocus(true)} onBlur={(e) => {if (!e.currentTarget.contains(e.relatedTarget)) setFocus(false);}}>
       <div className="car__bgs" aria-hidden="true">
         {["assets/video/tunnel.mp4", "assets/video/clouds.mp4", "assets/video/bokeh-dust.mp4", "assets/video/keyboard.mp4"].map((src, n) =>
         src ?
@@ -101,19 +115,19 @@ function Hero() {
         )}
       </div>
       <div className="wrap">
-        <div className="car__stage" aria-roledescription="carousel" onKeyDown={(e) => {if (e.key === "ArrowRight") go(i + 1);if (e.key === "ArrowLeft") go(i - 1);}}>
+        <div className="car__stage" aria-roledescription="carousel" onKeyDown={(e) => {if (e.key === "ArrowRight") pick(i + 1);if (e.key === "ArrowLeft") pick(i - 1);}}>
           {slides.map((s, n) =>
           <div key={n} className={"car__slide" + (n === i ? " is-on" : "")} aria-hidden={n !== i} inert={n !== i ? "" : undefined} aria-label={(n + 1) + " of " + N}>{s}</div>
           )}
         </div>
         <div className="car__ctrl">
-          <button type="button" className="car__arrow" onClick={() => go(i - 1)} aria-label="Previous">‹</button>
+          <button type="button" className="car__arrow" onClick={() => pick(i - 1)} aria-label="Previous">‹</button>
           {labels.map((l, n) =>
-          <button type="button" key={l} className="car__tab" aria-label={l} aria-current={n === i ? "true" : undefined} onClick={() => go(n)}>
-              <span className={"car__fill" + (n === i && !paused ? " run" : "")} key={n === i ? "on" + i : "off"}></span>
+          <button type="button" key={l} className="car__tab" aria-label={l} aria-current={n === i ? "true" : undefined} onClick={() => pick(n)}>
+              <span className={"car__fill" + (n === i && !paused ? " run" : "")} style={n === i ? { animationDuration: dwell + "ms" } : undefined} key={n === i ? "on" + i + dwell : "off"}></span>
             </button>
           )}
-          <button type="button" className="car__arrow" onClick={() => go(i + 1)} aria-label="Next">›</button>
+          <button type="button" className="car__arrow" onClick={() => pick(i + 1)} aria-label="Next">›</button>
         </div>
       </div>
     </section>);
